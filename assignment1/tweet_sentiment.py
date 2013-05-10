@@ -20,10 +20,13 @@ def main():
         text = re.sub('[^A-Za-z0-9 ]+','',text).lower().split(" ")
         print calc_sentiment_score(text,sentiments)
 
+
+
 def calc_sentiment_score(text,sentiments):
     score = 0
     for word in text:
-        delta = sentiments[word.lower()] if word.lower() in sentiments.keys() else 0
+        word = word.lower()
+        delta = sentiments[word] if word in sentiments.keys() else 0
         score += delta
     return score
 
