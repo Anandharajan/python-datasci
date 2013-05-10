@@ -22,21 +22,23 @@ def main():
 
 def calc_sentiments(tweets, sentiments):
 
-    tweet_sentiments = []
+    tweet_sentiments = {}
     term_sentiments = {}
 
     for tweet in tweets:
         tweet_score = 0
 
         for word in tweet.split():
-            word_score = sentiments[word.lower()] if word.lower() in sentiments else 0
             tweet_score += word_score
 
-            if word.lower() not in term_sentiments.keys():
+            if word.lower() in term_sentiments.keys():
+                word_score = sentiments[word.lower()]
+            else:
+                word_score = 0
                 term_sentiments[word.lower()] = word_score
 
 
-        tweet_sentiments.append([tweet,tweet_score])
+        tweet_sentiments[tweet] = tweet_score
 
 
     for term in term_sentiments:
@@ -46,16 +48,15 @@ def calc_sentiments(tweets, sentiments):
             new_score = 0
             frequency = 1
 
-            for i in range(len(tweet_sentiments)):
-                if term in tweet_sentiments[i][0]:
-                    new_score += tweet_sentiments[i][1]
+            for tweet, score in tweet_sentiments:
+                if term in tweet:
+                    new_score += score
                     frequency += 1
 
             new_score /= frequency
             term_sentiments[term.lower()] = new_score
 
-        print term+" "+str(float(term_sentiments[term]))
-
+        print "%s %s" % (term, str(float(term_sentiments[term])))
 
 
 if __name__ == '__main__':
