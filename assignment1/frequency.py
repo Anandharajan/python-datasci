@@ -4,11 +4,11 @@ import re
 
 def main():
 
-    tweets_path = sys.argv[2]
+    tweets_path = sys.argv[1]
     tweets = []
     frequency_dict = {}
 
-    print "Parsing tweets and building an array..."
+
     for line in open(tweets_path,'r').readlines():
         tweet = json.loads(line)
         if "text" in tweet.keys():
